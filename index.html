@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wikipedia Timeline</title>
+  <link
+    rel="stylesheet"
+    href="https://en.wikipedia.org/w/load.php?lang=en&modules=ext.cite.styles%7Cmediawiki.skinning.content.parsoid%7Cmediawiki.skinning.interface%7Csite.styles&only=styles&skin=vector-2022"
+  >
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="top-controls">
+      <form id="article-form" class="article-form">
+        <input
+          id="article-input"
+          name="article"
+          type="text"
+          placeholder="Wikipedia"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button type="submit" class="primary-button">Load</button>
+      </form>
+    </header>
+
+    <main class="content-shell">
+      <section class="article-stage">
+        <div id="article-frame" class="article-frame">
+          <div class="empty-state">
+            Enter an article title to begin browsing history.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="timeline-shell">
+      <div class="timeline-controls">
+        <button id="older-button" type="button" class="secondary-button">Older</button>
+        <input id="timeline-slider" type="range" min="0" max="0" step="1" value="0" disabled>
+        <button id="newer-button" type="button" class="secondary-button">Newer</button>
+      </div>
+      <div id="timeline-strip" class="timeline-strip" aria-label="Revision timeline"></div>
+      <div id="timeline-summary" class="timeline-summary" aria-live="polite"></div>
+      <div id="length-chart" class="length-chart" aria-label="Article length chart"></div>
+      <div id="attribution-note" class="attribution-note" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

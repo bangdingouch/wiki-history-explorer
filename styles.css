@@ -1,0 +1,503 @@
+:root {
+  --app-bg: white;
+  --surface: white;
+  --surface-soft: whitesmoke;
+  --line: silver;
+  --line-strong: gray;
+  --ink: black;
+  --muted: dimgray;
+  --accent: blue;
+  --accent-soft: aliceblue;
+  --success-bg: honeydew;
+  --success-line: green;
+  --danger-bg: mistyrose;
+  --danger-line: red;
+  --shadow: none;
+  --wiki-link: blue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  color: var(--ink);
+  background: var(--app-bg);
+}
+
+a {
+  color: var(--wiki-link);
+}
+
+.page-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+}
+
+.top-controls {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--app-bg);
+  padding: 12px 0 10px;
+}
+
+.article-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+}
+
+.article-form input {
+  width: min(28rem, 100%);
+  min-height: 36px;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: white;
+}
+
+.primary-button,
+.secondary-button,
+.article-chip {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.primary-button {
+  background: whitesmoke;
+  color: var(--ink);
+}
+
+.secondary-button {
+  background: white;
+  color: var(--ink);
+}
+
+.content-shell {
+  display: block;
+  margin-top: 0;
+}
+
+.article-stage,
+.timeline-shell {
+  min-width: 0;
+}
+
+.article-stage,
+.timeline-shell {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: var(--shadow);
+}
+
+.article-stage {
+  padding: 0;
+}
+
+.article-frame {
+  min-height: 72vh;
+  border: 0;
+  background: white;
+  overflow: hidden;
+}
+
+.article-canvas {
+  padding: 1.5rem;
+}
+
+.empty-state,
+.loading-state,
+.error-state {
+  padding: 1.5rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.error-state {
+  color: red;
+}
+
+.timeline-shell {
+  position: sticky;
+  bottom: 12px;
+  margin-top: 12px;
+  padding: 10px 12px;
+}
+
+.timeline-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+#timeline-slider {
+  width: 100%;
+}
+
+.timeline-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-top: 10px;
+  padding: 6px 2px 2px;
+  scrollbar-width: thin;
+}
+
+.timeline-tick {
+  flex: 0 0 auto;
+  width: 14px;
+  min-height: 38px;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  background: whitesmoke;
+  position: relative;
+  cursor: pointer;
+}
+
+.timeline-tick::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  padding: 4px 7px;
+  border-radius: 2px;
+  background: black;
+  color: white;
+  transition: opacity 140ms ease;
+}
+
+.timeline-tick:hover::after,
+.timeline-tick:focus-visible::after {
+  opacity: 1;
+}
+
+.timeline-tick.is-selected {
+  background: blue;
+  border-color: blue;
+}
+
+.timeline-tick.is-milestone {
+  width: 18px;
+}
+
+.tick-markers {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  pointer-events: none;
+}
+
+.tick-marker {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  opacity: 0.95;
+}
+
+.tick-marker.is-added {
+  background: var(--success-line);
+}
+
+.tick-marker.is-removed {
+  background: var(--danger-line);
+}
+
+.timeline-summary {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.length-chart {
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.length-chart-empty {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.length-chart svg {
+  display: block;
+  width: 100%;
+  height: 92px;
+}
+
+.attribution-note {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.length-chart-axis {
+  fill: none;
+  stroke: silver;
+  stroke-width: 1;
+}
+
+.length-chart-line {
+  fill: none;
+  stroke: blue;
+  stroke-width: 1.5;
+}
+
+.length-chart-point {
+  fill: red;
+}
+
+.length-chart-text {
+  fill: dimgray;
+  font-size: 10px;
+}
+
+.timeline-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 0;
+}
+
+.timeline-meta-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 0;
+}
+
+.timeline-stat-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.timeline-stat-swatch.is-added {
+  background: var(--success-line);
+}
+
+.timeline-stat-swatch.is-removed {
+  background: var(--danger-line);
+}
+
+.wiki-root {
+  font-family: sans-serif;
+  color: black;
+  line-height: 1.6;
+}
+
+.wiki-root .mw-parser-output {
+  font-size: 0.98rem;
+}
+
+.wiki-root .mw-parser-output > *:first-child {
+  margin-top: 0;
+}
+
+.wiki-root .mw-parser-output > * {
+  transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.wiki-root .is-active-diff-target {
+  outline: 2px solid blue;
+  outline-offset: 2px;
+}
+
+.wiki-root .diff-added {
+  border-left: 4px solid transparent;
+  padding-left: 12px;
+  margin-left: -16px;
+  border-radius: 0;
+}
+
+.wiki-root .diff-added {
+  background: var(--success-bg);
+  border-left-color: var(--success-line);
+}
+
+.wiki-root .diff-inline-added {
+  background: var(--success-bg);
+}
+
+.wiki-root .diff-inline-removed {
+  background: var(--danger-bg);
+  text-decoration: line-through;
+}
+
+.diff-removed-block {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0;
+  background: var(--danger-bg);
+  border-left: 4px solid var(--danger-line);
+}
+
+.diff-removed-block p {
+  margin: 0;
+  color: black;
+  white-space: pre-wrap;
+  text-decoration: line-through;
+}
+
+.wiki-root table {
+  border-collapse: collapse;
+  width: auto;
+  max-width: 100%;
+  margin: 1rem 0;
+  background: white;
+}
+
+.wiki-root table.wikitable,
+.wiki-root .infobox,
+.wiki-root .sidebar {
+  border: 1px solid silver;
+}
+
+.wiki-root .infobox,
+.wiki-root .thumb,
+.wiki-root .tright,
+.wiki-root .floatright {
+  float: right;
+  clear: right;
+  margin: 0 0 1rem 1rem;
+  max-width: min(26rem, 100%);
+}
+
+.wiki-root .tleft,
+.wiki-root .floatleft {
+  float: left;
+  clear: left;
+  margin: 0 1rem 1rem 0;
+  max-width: min(26rem, 100%);
+}
+
+.wiki-root .thumbinner,
+.wiki-root .infobox,
+.wiki-root .sidebar {
+  background: whitesmoke;
+}
+
+.wiki-root .infobox caption,
+.wiki-root .infobox th,
+.wiki-root .wikitable th {
+  background: whitesmoke;
+}
+
+.wiki-root th,
+.wiki-root td {
+  border: 1px solid silver;
+  padding: 0.35rem 0.55rem;
+  vertical-align: top;
+}
+
+.wiki-root img,
+.wiki-root video,
+.wiki-root audio {
+  max-width: 100%;
+  height: auto;
+}
+
+.wiki-root .toc {
+  display: table;
+  padding: 0.6rem 1rem;
+  border: 1px solid silver;
+  background: whitesmoke;
+  margin: 1rem 0;
+}
+
+.wiki-root blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid silver;
+  color: dimgray;
+}
+
+.wiki-root pre,
+.wiki-root code,
+.wiki-root .mw-highlight {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.wiki-root .reference {
+  font-size: 0.8em;
+}
+
+.wiki-root::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media (max-width: 760px) {
+  .page-shell {
+    padding: 0 8px 16px;
+  }
+
+  .article-form {
+    flex-wrap: wrap;
+  }
+
+  .timeline-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-summary {
+    min-height: 0;
+  }
+
+  .length-chart svg {
+    height: 80px;
+  }
+
+  .wiki-root .infobox,
+  .wiki-root .thumb,
+  .wiki-root .tright,
+  .wiki-root .floatright,
+  .wiki-root .tleft,
+  .wiki-root .floatleft {
+    float: none;
+    margin: 1rem 0;
+    max-width: 100%;
+  }
+}
